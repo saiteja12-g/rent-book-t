@@ -1,0 +1,859 @@
+<!doctype html>
+<html lang="en-IN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#0d504c">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" href="apple-touch-icon.png">
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px/1.4 system-ui,-apple-system,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Rent Book</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Rent Book">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Schibsted+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* LAYOUT: one column for a phone, a little illustrated street on top, tabs along the bottom, sheets slide up for every form.
+   Colours: pale neem ground, peacock teal for the money hero, marigold for warmth, clay for rent still owed, green tick for paid.
+   Type: Baloo 2 (an Indian display face) for headings and big rupee figures, Schibsted Grotesk for reading. */
+:root{
+  --bg:#eef3ef;--panel:#ffffff;--ink:#1c2a26;--muted:#53625d;--line:#d9e3de;--soft:#e4ece8;
+  --teal:#0f6e6a;--paid:#1b7a4b;--part:#965800;--clay:#b5432a;--mari:#e59a1c;--onink:#ffffff;
+  --hero:#0d504c;--hero-ink:#fbf6ea;--hero-mute:#cfe5df;--meter:#7ee0b4;
+  --ghost:#c9d7d1;--biz-soft:#fbeccd;--fam-soft:#dcefdc;
+  --wall:#f6dcab;--wall2:#f3e7d3;--roof:#c8532f;--roof2:#9b3c20;--door:#0f6e6a;--glass:#bfe2e6;--ground:#d3e2d8;--leaf:#4f9a45;--cloud:#ffffff;--board:#24312d;--a-cream:#fff6e3;
+  --f-display:"Baloo 2",ui-rounded,"Schibsted Grotesk",system-ui,-apple-system,sans-serif;
+  --f-body:"Schibsted Grotesk",system-ui,-apple-system,"Segoe UI",sans-serif;
+  color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#101917;--panel:#1a2522;--ink:#eaf2ee;--muted:#a3b5ae;--line:#2d3c38;--soft:#22302c;
+  --teal:#4cc7bb;--paid:#57d398;--part:#f2b04a;--clay:#ff8a66;--mari:#f2ac3a;--onink:#101917;
+  --hero:#0b3734;--hero-ink:#fbf3e2;--hero-mute:#b8d8d0;--meter:#6fd9aa;
+  --ghost:#3a4b46;--biz-soft:#3b3020;--fam-soft:#1f3423;
+  --wall:#b48d5d;--wall2:#8f7d66;--roof:#c8603a;--roof2:#8f3a22;--door:#2a8f88;--glass:#5f97a0;--ground:#23332e;--leaf:#6db35c;--cloud:#2e3e3a;--board:#0b1210;--a-cream:#d9c9a8;
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#101917;--panel:#1a2522;--ink:#eaf2ee;--muted:#a3b5ae;--line:#2d3c38;--soft:#22302c;
+  --teal:#4cc7bb;--paid:#57d398;--part:#f2b04a;--clay:#ff8a66;--mari:#f2ac3a;--onink:#101917;
+  --hero:#0b3734;--hero-ink:#fbf3e2;--hero-mute:#b8d8d0;--meter:#6fd9aa;
+  --ghost:#3a4b46;--biz-soft:#3b3020;--fam-soft:#1f3423;
+  --wall:#b48d5d;--wall2:#8f7d66;--roof:#c8603a;--roof2:#8f3a22;--door:#2a8f88;--glass:#5f97a0;--ground:#23332e;--leaf:#6db35c;--cloud:#2e3e3a;--board:#0b1210;--a-cream:#d9c9a8;
+  color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:18px/1.5 var(--f-body);overflow-x:clip;padding-bottom:calc(92px + env(safe-area-inset-bottom,0px))}
+body.noscroll{overflow:hidden}
+.gut{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+header.top{max-width:760px;margin:0 auto;padding-block:10px 0;display:flex;align-items:flex-end;justify-content:space-between;gap:10px}
+header.top .ttl{padding-bottom:10px}
+header.top h1{margin:0;font:800 30px/1 var(--f-display);letter-spacing:-.01em;color:var(--ink)}
+header.top .today{color:var(--muted);font-size:15px;margin-top:4px}
+header.top .scene{width:min(48vw,270px);height:auto;flex:none;display:block}
+main{max-width:760px;margin:0 auto;padding-block:4px 24px}
+h2{font:800 30px/1.1 var(--f-display);margin:0;text-wrap:balance}
+h3{font:700 22px/1.2 var(--f-display);margin:0}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--mari);outline-offset:2px}
+.btn{min-height:54px;padding:10px 18px;border-radius:16px;border:2px solid var(--ink);background:var(--panel);font-weight:700;font-size:18px;display:inline-flex;align-items:center;justify-content:center;gap:8px}
+.btn.pri{background:var(--teal);border-color:var(--teal);color:var(--onink)}
+.btn.paid{border-color:var(--paid);color:var(--paid);background:transparent}
+.btn.part{border-color:var(--part);color:var(--part);background:transparent}
+.btn.warn{border-color:var(--clay);color:var(--clay);background:transparent}
+.btn.wide{width:100%}
+.btn:disabled{opacity:.5}
+.link{background:none;border:0;padding:10px 0;min-height:44px;font-weight:700;color:var(--teal);text-decoration:underline;text-underline-offset:3px}
+.card{background:var(--panel);border-radius:22px;padding:18px;margin:14px 0;box-shadow:0 1px 0 var(--line)}
+.hero{position:relative;overflow:hidden;background:var(--hero);color:var(--hero-ink);border-radius:26px;padding:16px 18px 20px;margin:6px 0}
+.hero .coins{position:absolute;right:-6px;bottom:-8px;width:120px;height:auto;opacity:.95;pointer-events:none}
+.hero>*:not(.coins){position:relative}
+.hero .lbl{color:var(--hero-mute);font-size:17px}
+.big{font:800 clamp(42px,12.5vw,60px)/1 var(--f-display);letter-spacing:-.01em;white-space:nowrap;margin-top:6px}
+.mnav{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px}
+.mnav h2{font-size:24px;text-align:center;flex:1}
+.mnav button{width:50px;height:50px;border-radius:50%;border:2px solid currentColor;background:transparent;font-size:26px;font-weight:700;display:grid;place-items:center;color:inherit;flex:none}
+.meter{height:18px;border-radius:9px;background:rgba(255,255,255,.2);overflow:hidden;margin:14px 0 10px;max-width:calc(100% - 70px)}
+.meter i{display:block;height:100%;background:var(--meter);border-radius:9px}
+.facts{display:flex;flex-wrap:wrap;gap:4px 18px;font-size:17px;max-width:calc(100% - 80px)}
+.facts b{font:800 22px var(--f-display)}
+.tag{display:inline-flex;align-items:center;gap:5px;font-size:14px;font-weight:700;padding:3px 10px;border-radius:99px;background:var(--soft);color:var(--muted);vertical-align:middle;white-space:nowrap}
+.tag.biz{background:var(--biz-soft);color:var(--part)}
+.tag.fam{background:var(--fam-soft);color:var(--paid)}
+.cardhead{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:6px}
+.cardhead .mini{width:40px;height:30px;flex:none}
+.cardhead .hl{display:flex;align-items:center;gap:10px}
+.trow{display:grid;grid-template-columns:48px minmax(0,1fr) auto;gap:12px;align-items:center;padding:14px 0;border-top:1px solid var(--line)}
+.trow:first-of-type{border-top:0}
+.av{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;font:800 19px var(--f-display);background:hsl(var(--h) 62% 86%);color:hsl(var(--h) 50% 24%)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .av{background:hsl(var(--h) 30% 28%);color:hsl(var(--h) 70% 88%)}}
+:root[data-theme="dark"] .av{background:hsl(var(--h) 30% 28%);color:hsl(var(--h) 70% 88%)}
+.trow .nm{font-weight:700;font-size:19px;overflow-wrap:anywhere}
+.trow .sub{color:var(--muted);font-size:16px}
+.trow .btn{min-width:136px}
+.pill{font-size:15px;font-weight:700;white-space:nowrap}
+.st-paid{color:var(--paid)}.st-part{color:var(--part)}.st-over{color:var(--clay)}.st-due{color:var(--ink)}.st-up{color:var(--muted)}
+.banner{background:var(--biz-soft);border:2px dashed var(--mari);border-radius:16px;padding:12px 16px;margin:10px 0;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:6px 12px;font-size:16px}
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:14px;margin:14px 0}
+.tile{background:var(--panel);border-radius:22px;padding:0;border:0;text-align:left;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 1px 0 var(--line);width:100%}
+.tile-art{display:flex;justify-content:center;align-items:flex-end;height:112px;padding-top:10px}
+.tile.biz .tile-art{background:var(--biz-soft)}
+.tile.fam .tile-art{background:var(--fam-soft)}
+.tile-art svg{height:100px;width:auto}
+.tile-body{padding:14px 18px 18px;display:flex;flex-direction:column;gap:8px}
+.tile .amt{font-size:16px;color:var(--muted)}
+.tile .amt b{color:var(--ink);font:800 22px var(--f-display)}
+.empty{text-align:center;padding:24px 18px 28px}
+.empty .ill{width:min(220px,70%);height:auto;display:block;margin:0 auto 10px}
+.empty p{color:var(--muted);margin:8px 0 18px}
+.back{background:none;border:0;font-weight:700;padding:10px 0;min-height:44px;font-size:18px;color:var(--teal)}
+.list{list-style:none;margin:0;padding:0}
+.list li{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:12px 0;border-top:1px solid var(--line)}
+.list li:first-child{border-top:0}
+.list .r{text-align:right;white-space:nowrap}
+.list button.rowbtn{all:unset;display:flex;justify-content:space-between;gap:12px;align-items:center;width:100%;cursor:pointer;min-height:40px}
+.list button.rowbtn:focus-visible{outline:3px solid var(--mari);outline-offset:2px;border-radius:8px}
+.muted{color:var(--muted)}
+.num{white-space:nowrap;font-variant-numeric:tabular-nums}
+.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
+.actions .btn{flex:1 1 150px}
+.kpis{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:12px 0}
+.kpi{background:var(--panel);border-radius:18px;padding:12px 14px;display:flex;flex-direction:column;gap:2px}
+.kpi .ic{width:30px;height:30px;margin-bottom:4px}
+.kpi small{display:block;color:var(--muted);font-size:15px;line-height:1.3}
+.kpi b{font:800 clamp(20px,5.8vw,28px)/1.15 var(--f-display);white-space:nowrap}
+.fig{position:relative;height:240px;margin-top:8px}
+.fig>svg{position:absolute;inset:0;width:100%;height:100%;touch-action:manipulation}
+.fig text{fill:var(--muted);font-size:12px;font-family:var(--f-body)}
+.b-exp{fill:var(--ghost)}.b-got{fill:var(--teal)}.b-sel{fill:var(--mari)}.gl{stroke:var(--line)}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:15px;color:var(--muted);margin-top:6px}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+.hb{margin:12px 0}
+.hb .top{display:flex;justify-content:space-between;gap:10px;font-size:17px}
+.hb .top span:first-child{display:flex;align-items:center;gap:8px;min-width:0}
+.hb .top svg{width:30px;height:24px;flex:none}
+.hb .trk{height:14px;border-radius:7px;background:var(--soft);margin-top:6px;position:relative;overflow:hidden}
+.hb .trk s{position:absolute;inset:0 auto 0 0;background:var(--ghost);border-radius:7px}
+.hb .trk i{position:absolute;inset:0 auto 0 0;background:var(--teal);border-radius:7px}
+.split{display:flex;height:24px;border-radius:12px;overflow:hidden;margin:10px 0 6px;background:var(--soft)}
+.split i{display:block;height:100%}
+.detail{min-height:48px;font-size:17px;margin-top:6px;padding:10px 12px;border-radius:12px;background:var(--soft)}
+.allpaid{display:flex;align-items:center;gap:14px}
+.allpaid svg{width:72px;height:72px;flex:none}
+/* sheet */
+.shwrap{position:fixed;inset:0;z-index:20;background:rgba(0,0,0,.45);display:flex;align-items:flex-end;justify-content:center}
+.sheet-in{background:var(--panel);width:100%;max-width:560px;max-height:92vh;overflow:auto;border-radius:26px 26px 0 0;padding:18px max(18px,env(safe-area-inset-right,0px)) calc(22px + env(safe-area-inset-bottom,0px)) max(18px,env(safe-area-inset-left,0px));animation:up .22s ease-out}
+@media(prefers-reduced-motion:reduce){.sheet-in{animation:none}}
+@keyframes up{from{transform:translateY(40px);opacity:.6}to{transform:none;opacity:1}}
+.sh-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:8px}
+.sh-head h2{font-size:26px}
+.x{width:46px;height:46px;border-radius:50%;border:0;background:var(--soft);font-size:26px;line-height:1;flex:none}
+label.f{display:block;margin:14px 0 0;font-weight:700;font-size:17px}
+label.f small{font-weight:400;color:var(--muted)}
+.f input,.f select,.f textarea{display:block;width:100%;margin-top:6px;min-height:54px;padding:12px 14px;border-radius:14px;border:2px solid var(--line);background:var(--bg);font-size:19px;-webkit-appearance:none;appearance:none}
+.f input:focus,.f select:focus,.f textarea:focus{border-color:var(--teal);outline:none}
+.rs{position:relative;display:block;margin-top:6px}
+.rs::before{content:"₹";position:absolute;left:14px;top:50%;transform:translateY(-50%);font:800 22px var(--f-display);color:var(--muted);pointer-events:none}
+.rs input{margin-top:0;padding-left:38px;font-variant-numeric:tabular-nums}
+.seg{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:6px}
+.seg label{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;min-height:96px;border:2px solid var(--line);border-radius:16px;font-weight:700;text-align:center;padding:8px 6px;cursor:pointer}
+.seg label svg{width:64px;height:48px}
+.seg input{position:absolute;opacity:0;pointer-events:none}
+.seg label:has(input:checked){border-color:var(--teal);background:var(--soft);box-shadow:inset 0 0 0 2px var(--teal)}
+.seg label:has(input:focus-visible){outline:3px solid var(--mari)}
+.hint{font-size:16px;color:var(--muted);margin-top:6px;min-height:22px}
+.sh-actions{display:grid;gap:10px;margin-top:20px}
+/* tabs */
+nav.tabs{position:fixed;left:0;right:0;bottom:0;z-index:10;background:var(--panel);border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(4,1fr);padding:6px max(4px,env(safe-area-inset-right,0px)) calc(6px + env(safe-area-inset-bottom,0px)) max(4px,env(safe-area-inset-left,0px))}
+nav.tabs button{border:0;background:none;min-height:58px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-size:14px;font-weight:700;color:var(--muted);border-radius:14px}
+nav.tabs button[aria-current=page]{color:var(--teal);background:var(--soft)}
+nav.tabs svg{width:26px;height:26px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.toast{position:fixed;left:50%;bottom:calc(100px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:12px 20px;border-radius:99px;font-weight:700;z-index:30;max-width:90vw;text-align:center}
+.note{color:var(--muted);font-size:16px}
+.toast button{background:none;border:0;color:var(--mari);font-weight:800;text-decoration:underline;margin-left:12px;padding:6px 4px;min-height:44px}
+.banner.ask{display:grid;gap:10px;justify-content:stretch;margin-top:16px}
+@media(max-width:420px){.trow{grid-template-columns:48px minmax(0,1fr)}.trow .btn{grid-column:1/-1;width:100%}.kpis{grid-template-columns:1fr 1fr}.kpis .kpi:first-child{grid-column:1/-1}.hero .coins{width:96px}}
+</style>
+</head>
+<body>
+<div id="practice-warn" hidden style="position:sticky;top:0;z-index:50;background:var(--clay);color:var(--onink);font:500 16px/1.35 var(--f-body);padding:10px max(16px,env(safe-area-inset-right,0px)) 10px max(16px,env(safe-area-inset-left,0px))">This phone is not keeping your entries. Open the link in Safari (not a Private tab), or use the Home Screen icon.</div>
+
+
+<header class="top gut">
+  <div class="ttl"><h1>Rent Book</h1><div class="today" id="today"></div></div>
+  <svg class="scene" id="scene" viewBox="0 0 270 104" aria-hidden="true"></svg>
+</header>
+<main id="app" class="gut"><section class="card empty"><h3>Opening your rent book…</h3></section></main>
+<nav class="tabs" aria-label="Sections">
+  <button data-tab="month"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4M8 15l2.5 2.5L16 13"/></svg>This month</button>
+  <button data-tab="buildings"><svg viewBox="0 0 24 24"><path d="M3 21h18M5 21V8l7-5 7 5v13M9 21v-6h6v6"/></svg>Buildings</button>
+  <button data-tab="summary"><svg viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-8M22 20H2"/></svg>Summary</button>
+  <button data-tab="options"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>Settings</button>
+</nav>
+<div class="shwrap" id="shwrap" hidden></div>
+<div class="toast" id="toast" role="status" hidden></div>
+<script>
+/* Rent Book practice copy: stands in for claude.ai's online storage.
+   Everything is kept on this phone only (localStorage). No sign-in, nothing sent anywhere. */
+(function(){
+  var KEY='rentbook-practice-v1';
+  var COLS=['props','tenants','pays','settings'];
+  var store=null, persistent=true;
+  function empty(){var o={seeded:false};COLS.forEach(function(c){o[c]={}});return o}
+  function clone(v){return v==null?v:JSON.parse(JSON.stringify(v))}
+  function load(){
+    try{var raw=window.localStorage.getItem(KEY);if(raw){var o=JSON.parse(raw);COLS.forEach(function(c){if(!o[c]||typeof o[c]!=='object')o[c]={}});return o}}catch(e){}
+    return null}
+  function save(){
+    if(!persistent)return;
+    try{window.localStorage.setItem(KEY,JSON.stringify(store))}catch(e){persistent=false;warn()}}
+  function warn(){
+    var show=function(){var b=document.getElementById('practice-warn');if(b)b.hidden=false};
+    if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',show);else show()}
+  try{var probe='__rb_probe';window.localStorage.setItem(probe,'1');window.localStorage.removeItem(probe)}catch(e){persistent=false;warn()}
+  store=load();
+  if(!store){store=empty();seed(store);save()}
+
+  /* ---------- practice data, dated around this month ---------- */
+  function seed(s){
+    var now=new Date(),Y=now.getFullYear(),M=now.getMonth();
+    function ym(back){var d=new Date(Y,M-back,1);return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')}
+    function day(back,dd){return ym(back)+'-'+String(dd).padStart(2,'0')}
+    s.props.p_shops={name:'Main Road Shops',type:'business',address:'Main Road, near the bus stand',createdAt:day(0,1),sample:true};
+    s.props.p_house={name:'Gandhi Nagar House',type:'family',address:'12, 3rd Cross, Gandhi Nagar',createdAt:day(0,1),sample:true};
+    var T=[
+      {id:'t_ravi',p:'p_shops',name:'Ravi Kumar (kirana shop)',phone:'',startBack:18,rents:[[18,25000,''],[6,27500,'10% yearly hike']],note:'Cash'},
+      {id:'t_meena',p:'p_shops',name:'Meena Tailors',phone:'',startBack:10,rents:[[10,15000,'']],note:'UPI',partLast:9000},
+      {id:'t_lakshmi',p:'p_house',name:'Lakshmi Devi',phone:'',startBack:14,rents:[[14,18000,''],[2,19000,'Hike after 1 year']],note:'Bank transfer',notes:'Ground floor'},
+      {id:'t_suresh',p:'p_house',name:'Suresh Babu',phone:'',startBack:24,endBack:4,rents:[[24,12000,'']],note:'Cash',notes:'First floor, moved out'}
+    ];
+    T.forEach(function(t){
+      var doc={propertyId:t.p,name:t.name,phone:t.phone,start:day(t.startBack,1),end:t.endBack!=null?day(t.endBack,28):'',
+        rents:t.rents.map(function(r){var o={from:ym(r[0]),amount:r[1]};if(r[2])o.note=r[2];return o}),notes:t.notes||'',sample:true};
+      s.tenants[t.id]=doc;
+      var last=t.endBack!=null?t.endBack:0;
+      for(var b=t.startBack;b>=last;b--){
+        if(b===0&&t.id!=='t_ravi')continue;            /* this month: only Ravi has paid so far */
+        var m=ym(b),amt=0;
+        t.rents.forEach(function(r){if(ym(r[0])<=m)amt=r[1]});
+        if(b===1&&t.partLast)amt=t.partLast;           /* Meena paid part of last month */
+        s.pays[t.id+'_'+m]={tenantId:t.id,propertyId:t.p,month:m,amount:amt,paidOn:day(b,5),note:t.note,sample:true};
+      }
+    });
+    s.seeded=true;
+  }
+
+  /* ---------- the storage API the app expects ---------- */
+  var listeners=[];
+  function split(path){var i=path.indexOf('/');return [path.slice(0,i),path.slice(i+1)]}
+  function newId(){var c='abcdefghijklmnopqrstuvwxyz0123456789',s='';for(var i=0;i<20;i++)s+=c[Math.floor(Math.random()*c.length)];return s}
+  function err(code,msg){var e=new Error(msg);e.code=code;return e}
+  var META={fromCache:false,hasPendingWrites:false};
+  function docSnap(col,id){var d=store[col]&&store[col][id];return {id:id,exists:!!d,data:function(){return d?clone(d):undefined},metadata:META}}
+  function colSnap(col){var docs=Object.keys(store[col]).map(function(id){var d=store[col][id];return {id:id,exists:true,data:function(){return clone(d)}}});
+    return {docs:docs,size:docs.length,empty:!docs.length,metadata:META}}
+  function notify(col){listeners.forEach(function(l){if(l.col===col)deliver(l)})}
+  function deliver(l){Promise.resolve().then(function(){if(!l.on)return;try{l.next(l.id==null?colSnap(l.col):docSnap(l.col,l.id))}catch(e){setTimeout(function(){throw e})}})}
+  function listen(col,id,next){var l={col:col,id:id,next:next,on:true};listeners.push(l);deliver(l);
+    return function(){l.on=false;listeners=listeners.filter(function(x){return x!==l})}}
+  function isObj(v){return v&&typeof v==='object'&&!Array.isArray(v)}
+  function merge(a,b){Object.keys(b).forEach(function(k){if(isObj(b[k])&&isObj(a[k]))merge(a[k],b[k]);else a[k]=clone(b[k])})}
+  function write(col,fn){fn();save();notify(col);return Promise.resolve()}
+  function docRef(col,id){
+    return {id:id,path:col+'/'+id,
+      get:function(){return Promise.resolve(docSnap(col,id))},
+      set:function(d){return write(col,function(){store[col][id]=clone(d)})},
+      update:function(d){if(!store[col][id])return Promise.reject(err('invalid_argument','Document does not exist'));
+        return write(col,function(){merge(store[col][id],d)})},
+      delete:function(){return write(col,function(){delete store[col][id]})},
+      onSnapshot:function(next){return listen(col,id,next)}}}
+  var db={
+    collection:function(col){if(!store[col])store[col]={};
+      return {path:col,doc:function(id){return docRef(col,id||newId())},onSnapshot:function(next){return listen(col,null,next)}}},
+    doc:function(path){var p=split(path);if(!store[p[0]])store[p[0]]={};return docRef(p[0],p[1])}};
+  var user={can:function(){return Promise.resolve(true)},id:function(){return Promise.resolve(null)}};
+
+  /* another tab on the same phone changed the data */
+  window.addEventListener('storage',function(e){if(e.key!==KEY)return;var o=load();if(o){store=o;COLS.forEach(notify)}});
+
+  window.claude={use:function(name){return Promise.resolve(name==='db'?db:name==='user'?user:null)}};
+  window.rentBookPractice={reset:function(){store=empty();seed(store);save();COLS.forEach(notify)}};
+})();
+</script>
+<script>
+{
+const $=s=>document.querySelector(s);
+const app=$('#app'), shwrap=$('#shwrap'), toastEl=$('#toast');
+const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const pad=n=>String(n).padStart(2,'0');
+let now=new Date();
+let CUR=`${now.getFullYear()}-${pad(now.getMonth()+1)}`;
+let TODAY=`${CUR}-${pad(now.getDate())}`;
+const addM=(m,n)=>{const [y,mo]=m.split('-').map(Number);const d=new Date(y,mo-1+n,1);return `${d.getFullYear()}-${pad(d.getMonth()+1)}`};
+
+/* S.raw holds every document exactly as stored (keyed by id). derive() builds the lists the screens use from it. */
+const S={raw:{props:{},tenants:{},pays:{}},props:[],tenants:[],pays:{},hiddenN:0,settings:null,got:{props:0,tenants:0,pays:0,settings:0},
+  view:'month',month:CUR,year:now.getFullYear(),propId:null,tenantId:null,selM:null,
+  db:null,readOnly:false,status:'loading',unsub:{},errs:{},inflight:0,pendingLong:false,canWrite:null,me:null};
+const VIEWS=['month','buildings','summary','options'];
+
+/* Money is always Indian rupees with Indian digit grouping (₹1,25,000). Any older saved currency choice is ignored. */
+const LOC='en-IN';
+const fmtR=new Intl.NumberFormat(LOC,{style:'currency',currency:'INR',maximumFractionDigits:0});
+let fmtC;try{fmtC=new Intl.NumberFormat(LOC,{style:'currency',currency:'INR',notation:'compact',maximumFractionDigits:1})}catch(e){fmtC=fmtR}
+const money=n=>fmtR.format(Math.round(Number(n)||0));
+const moneyS=n=>fmtC.format(Number(n)||0);
+const mName=(m,o={month:'long',year:'numeric'})=>{const [y,mo]=m.split('-').map(Number);return new Intl.DateTimeFormat(LOC,o).format(new Date(y,mo-1,1))};
+const dName=d=>{if(!/^\d{4}-\d{2}-\d{2}$/.test(d||''))return '';const [y,m,dd]=d.split('-').map(Number);return new Intl.DateTimeFormat(LOC,{day:'numeric',month:'short',year:'numeric'}).format(new Date(y,m-1,dd))};
+/* Amounts are whole rupees. "Rs. 18,000", "₹1,25,000.50" and "18000/-" all work; anything with a minus sign is not an amount (returns 0, so the form asks again). */
+const num=v=>{let s=String(v??'').trim();if(s.includes('-')&&!/^[^-]*\d[^-]*\/-$/.test(s))return 0;s=s.replace(/^(₹|rs\.?|inr)\s*/i,'');const i=s.indexOf('.');if(i>=0)s=s.slice(0,i);s=s.replace(/\D/g,'');return s?Number(s):0};
+const dShort=d=>{if(!/^\d{4}-\d{2}-\d{2}$/.test(d||''))return '';const [y,m,dd]=d.split('-').map(Number);return new Intl.DateTimeFormat(LOC,{day:'numeric',month:'short'}).format(new Date(y,m-1,dd))};
+
+/* ---------- illustrations (inline SVG, coloured by theme tokens) ---------- */
+const awning=(x,y,w,n,h)=>{let s='';const sw=w/n;for(let i=0;i<n;i++){const c=i%2?'var(--a-cream)':'var(--mari)';s+=`<rect x="${x+i*sw}" y="${y}" width="${sw}" height="${h}" fill="${c}"/><path d="M${x+i*sw} ${y+h}a${sw/2} ${sw*.32} 0 0 0 ${sw} 0z" fill="${c}"/>`}return s};
+const homeG=`<ellipse cx="60" cy="86" rx="58" ry="4" fill="var(--ground)"/>
+<rect x="76" y="16" width="9" height="22" fill="var(--roof2)"/>
+<rect x="24" y="42" width="66" height="44" fill="var(--wall)"/>
+<path d="M13 47 57 12 101 47z" fill="var(--roof)"/><path d="M13 47h88" stroke="var(--roof2)" stroke-width="3" stroke-linecap="round"/>
+<rect x="32" y="55" width="19" height="16" rx="2" fill="var(--glass)"/><path d="M41.5 55v16M32 63h19" stroke="var(--wall)" stroke-width="2"/>
+<path d="M60 86V65a9 9 0 0 1 18 0v21z" fill="var(--door)"/><circle cx="73" cy="75" r="1.7" fill="var(--mari)"/>
+<path d="M58 55q11 6 22 0" fill="none" stroke="var(--leaf)" stroke-width="1.5"/><circle cx="61" cy="57" r="2.2" fill="var(--mari)"/><circle cx="66" cy="59" r="2.2" fill="var(--mari)"/><circle cx="72" cy="59" r="2.2" fill="var(--mari)"/><circle cx="77" cy="57" r="2.2" fill="var(--mari)"/>
+<path d="M100 86l2-11h12l2 11z" fill="var(--roof2)"/><circle cx="108" cy="67" r="8" fill="var(--leaf)"/><circle cx="102" cy="72" r="5" fill="var(--leaf)"/>`;
+const shopG=`<ellipse cx="60" cy="86" rx="58" ry="4" fill="var(--ground)"/>
+<rect x="14" y="34" width="92" height="52" fill="var(--wall2)"/>
+<rect x="24" y="13" width="72" height="17" rx="3" fill="var(--board)"/><path d="M36 21.5h48" stroke="var(--mari)" stroke-width="3" stroke-linecap="round" stroke-dasharray="7 5"/>
+${awning(10,30,100,8,12)}
+<rect x="22" y="56" width="40" height="22" rx="2" fill="var(--glass)"/><path d="M22 67h40M42 56v22" stroke="var(--wall2)" stroke-width="2"/>
+<rect x="72" y="52" width="24" height="34" rx="2" fill="var(--door)"/><circle cx="91" cy="70" r="1.7" fill="var(--mari)"/>`;
+const homeArt=(cls='')=>`<svg class="${cls}" viewBox="0 0 120 92" aria-hidden="true">${homeG}</svg>`;
+const shopArt=(cls='')=>`<svg class="${cls}" viewBox="0 0 120 92" aria-hidden="true">${shopG}</svg>`;
+const artFor=(p,cls)=>p.type==='business'?shopArt(cls):homeArt(cls);
+const sceneG=`<circle cx="240" cy="24" r="14" fill="var(--mari)"/>
+<g fill="var(--cloud)"><ellipse cx="150" cy="18" rx="16" ry="7"/><ellipse cx="162" cy="14" rx="11" ry="8"/><ellipse cx="174" cy="19" rx="12" ry="6"/></g>
+<ellipse cx="135" cy="101" rx="135" ry="4" fill="var(--ground)"/>
+<g transform="translate(2 14) scale(.86)">${shopG}</g>
+<g transform="translate(102 6) scale(.96)">${homeG}</g>
+<rect x="236" y="70" width="6" height="30" rx="2" fill="var(--roof2)"/><circle cx="239" cy="60" r="16" fill="var(--leaf)"/><circle cx="229" cy="70" r="10" fill="var(--leaf)"/><circle cx="250" cy="69" r="10" fill="var(--leaf)"/>`;
+const keyG=`<g transform="translate(112 30)"><circle cx="8" cy="8" r="7" fill="none" stroke="var(--mari)" stroke-width="4"/><path d="M14 13l14 14M22 21l4-4M26 25l4-4" stroke="var(--mari)" stroke-width="4" stroke-linecap="round"/></g>`;
+const artNoBuildings=`<svg class="ill" viewBox="0 0 150 94" aria-hidden="true"><g transform="translate(4 2)">${homeG}</g>${keyG}</svg>`;
+const artToLet=`<svg class="ill" viewBox="0 0 150 94" aria-hidden="true"><g transform="translate(0 2)">${homeG}</g><rect x="128" y="50" width="4" height="38" fill="var(--roof2)"/><rect x="112" y="34" width="36" height="22" rx="3" fill="var(--panel)" stroke="var(--ink)" stroke-width="2"/><text x="130" y="49" text-anchor="middle" font-size="9" font-weight="800" fill="var(--clay)" font-family="sans-serif">TO-LET</text></svg>`;
+const artChart=`<svg class="ill" viewBox="0 0 150 94" aria-hidden="true"><ellipse cx="75" cy="88" rx="70" ry="4" fill="var(--ground)"/><rect x="22" y="56" width="20" height="32" rx="4" fill="var(--ghost)"/><rect x="50" y="40" width="20" height="48" rx="4" fill="var(--mari)"/><rect x="78" y="24" width="20" height="64" rx="4" fill="var(--teal)"/><path d="M118 88V62" stroke="var(--leaf)" stroke-width="3" stroke-linecap="round"/><path d="M118 70c-10-2-14-10-12-16 8 0 13 6 12 16zM118 64c2-10 9-14 15-13 0 8-6 13-15 13z" fill="var(--leaf)"/></svg>`;
+const artAllPaid=`<svg viewBox="0 0 80 80" aria-hidden="true"><circle cx="40" cy="42" r="28" fill="var(--mari)"/><circle cx="40" cy="42" r="21" fill="none" stroke="var(--a-cream)" stroke-width="2" stroke-dasharray="3 4"/><path d="M28 43l8 8 16-17" fill="none" stroke="var(--board)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><path d="M68 10v10M63 15h10M12 8v8M8 12h8M70 62v6M67 65h6" stroke="var(--teal)" stroke-width="2.5" stroke-linecap="round"/></svg>`;
+const artCoins=`<svg class="coins" viewBox="0 0 120 110" aria-hidden="true"><g fill="#e59a1c" stroke="#a8670a" stroke-width="2">
+<ellipse cx="58" cy="96" rx="34" ry="9"/><path d="M24 88v8a34 9 0 0 0 68 0v-8"/><ellipse cx="58" cy="88" rx="34" ry="9"/>
+<path d="M24 78v10a34 9 0 0 0 68 0V78"/><ellipse cx="58" cy="78" rx="34" ry="9"/>
+<path d="M30 66v10a34 9 0 0 0 68 0V66"/><ellipse cx="64" cy="66" rx="34" ry="9"/>
+<path d="M26 54v10a34 9 0 0 0 68 0V54"/><ellipse cx="60" cy="54" rx="34" ry="9" fill="#f6b93f"/></g>
+<text x="60" y="59" text-anchor="middle" font-size="15" font-weight="800" fill="#7a4700" font-family="sans-serif">₹</text></svg>`;
+const icRecv=`<svg class="ic" viewBox="0 0 30 30" aria-hidden="true"><circle cx="15" cy="15" r="13" fill="var(--fam-soft)"/><text x="15" y="20.5" text-anchor="middle" font-size="15" font-weight="800" fill="var(--paid)" font-family="sans-serif">₹</text></svg>`;
+const icExp=`<svg class="ic" viewBox="0 0 30 30" aria-hidden="true"><circle cx="15" cy="15" r="13" fill="var(--soft)"/><rect x="8" y="9" width="14" height="13" rx="2" fill="none" stroke="var(--teal)" stroke-width="2"/><path d="M8 13h14M11 7v4M19 7v4" stroke="var(--teal)" stroke-width="2" stroke-linecap="round"/></svg>`;
+const icOwed=`<svg class="ic" viewBox="0 0 30 30" aria-hidden="true"><circle cx="15" cy="15" r="13" fill="var(--biz-soft)"/><path d="M10 19v-5a5 5 0 0 1 10 0v5l1.5 2h-13z" fill="none" stroke="var(--clay)" stroke-width="2" stroke-linejoin="round"/><path d="M13.5 23.5h3" stroke="var(--clay)" stroke-width="2" stroke-linecap="round"/></svg>`;
+const icHome=`<svg class="ic" viewBox="0 0 30 30" aria-hidden="true"><circle cx="15" cy="15" r="13" fill="var(--soft)"/><path d="M8 15l7-6 7 6M10 14v8h10v-8" fill="none" stroke="var(--teal)" stroke-width="2" stroke-linejoin="round"/></svg>`;
+const icHike=`<svg class="ic" viewBox="0 0 30 30" aria-hidden="true"><circle cx="15" cy="15" r="13" fill="var(--biz-soft)"/><path d="M8 20l5-5 3 3 6-7M17 11h5v5" fill="none" stroke="var(--part)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+$('#scene').innerHTML=sceneG;
+$('#today').textContent=new Intl.DateTimeFormat(LOC,{weekday:'long',day:'numeric',month:'long'}).format(now);
+
+const initials=n=>String(n||'?').trim().split(/\s+/).slice(0,2).map(w=>w[0]||'').join('').toUpperCase()||'?';
+const hueOf=n=>{const hs=[20,38,95,150,175,205,265,330];let h=0;for(const c of String(n))h=(h*31+c.charCodeAt(0))>>>0;return hs[h%hs.length]};
+const avatar=n=>`<div class="av" style="--h:${hueOf(n)}" aria-hidden="true">${esc(initials(n))}</div>`;
+
+/* ---------- rent logic ---------- */
+const startM=t=>(t.start||'0000-01').slice(0,7);
+const endM=t=>t.end?t.end.slice(0,7):'9999-12';
+const active=(t,m)=>m>=startM(t)&&m<=endM(t);
+/* Rent history: the old `rents` array (never rewritten), then each rent_YYYY-MM key on top of it.
+   A key set to null removes that month; an object sets it. Keys win over the array. */
+const RENT_KEY=/^rent_(\d{4}-\d{2})$/;
+const rents=t=>{const m=new Map();for(const r of Array.isArray(t.rents)?t.rents:[])if(r&&r.from)m.set(r.from,r);
+  for(const k of Object.keys(t)){const x=RENT_KEY.exec(k);if(!x)continue;const v=t[k];if(v===null)m.delete(x[1]);else if(v&&typeof v==='object')m.set(x[1],{...v,from:x[1]})}
+  return [...m.values()].sort((a,b)=>a.from<b.from?-1:1)};
+const rentAt=(t,m)=>{const rs=rents(t);let a=rs.length?Number(rs[0].amount)||0:0;for(const r of rs)if(r.from<=m)a=Number(r.amount)||0;return a};
+const rentFor=(t,m)=>active(t,m)?rentAt(t,m):0;
+const payOf=(t,m)=>S.pays[t.id+'_'+m];
+const paidAmt=(t,m)=>{const p=payOf(t,m);return p?Number(p.amount)||0:0};
+function status(t,m){
+  const e=rentFor(t,m),p=paidAmt(t,m);
+  if(!payOf(t,m)){if(!e)return null;if(m<CUR)return['over','Not paid'];if(m===CUR)return['due','Due'];return['up','Upcoming']}
+  if(p>=e)return['paid','Paid'];
+  return['part',`Part paid, ${money(e-p)} short`];
+}
+const propName=id=>(S.props.find(p=>p.id===id)||{}).name||'Building';
+const tenantsOf=pid=>S.tenants.filter(t=>t.propertyId===pid).sort((a,b)=>String(a.name).localeCompare(String(b.name)));
+function totals(m,list=S.tenants){let exp=0,got=0,due=0,paidN=0,dueN=0;for(const t of list){const e=rentFor(t,m),p=paidAmt(t,m);exp+=e;got+=p;if(e>0){if(p>=e)paidN++;else{dueN++;due+=e-p}}}return{exp,got,due,paidN,dueN}}
+const yearMonths=y=>Array.from({length:12},(_,i)=>`${y}-${pad(i+1)}`);
+const hasSample=()=>S.props.some(p=>p.sample)||S.tenants.some(t=>t.sample);
+
+/* ---------- small UI helpers ---------- */
+let toastT;function toast(msg,o={}){toastEl.textContent=msg;
+  if(o.undo){const b=document.createElement('button');b.type='button';b.textContent='Undo';b.onclick=()=>{toastEl.hidden=true;clearTimeout(toastT);o.undo()};toastEl.append(b)}
+  toastEl.hidden=false;clearTimeout(toastT);toastT=setTimeout(()=>toastEl.hidden=true,o.undo?8000:2600)}
+const tagHTML=p=>p.type==='business'?'<span class="tag biz">Business</span>':'<span class="tag fam">Family home</span>';
+const canAct=()=>!S.readOnly&&S.db;
+const act=(a,label,cls='btn',extra='')=>canAct()?`<button class="${cls}" data-act="${a}" ${extra}>${label}</button>`:'';
+const checkSvg='<svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12.5 9.5 18 20 6" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+/* ---------- views ---------- */
+function sampleBanner(){return hasSample()?`<div class="banner"><span>You are looking at <b>sample data</b> for practice.</span>${act('clear-sample','Remove sample data','link')}</div>`:''}
+
+function vMonth(){
+  const m=S.month,T=totals(m),pct=T.exp?Math.min(100,Math.round(T.got/T.exp*100)):0;
+  let h=sampleBanner()+`<section class="hero" aria-label="Rent for ${esc(mName(m))}">${artCoins}
+   <div class="mnav"><button data-act="m-prev" aria-label="Previous month">‹</button><h2>${esc(mName(m))}</h2><button data-act="m-next" aria-label="Next month">›</button></div>
+   <div class="lbl">Total received this month</div>
+   <div class="big num">${esc(money(T.got))}</div><div class="lbl">of <span class="num">${esc(money(T.exp))}</span> expected · ${pct}%</div>
+   <div class="meter" role="img" aria-label="${pct}% received"><i style="width:${pct}%"></i></div>
+   <div class="facts"><span><b>${T.paidN}</b> paid</span><span><b>${T.dueN}</b> still to pay${T.due?` · <span class="num">${esc(money(T.due))}</span>`:''}</span>${m!==CUR?`<button class="link" style="color:inherit;padding:0;min-height:0" data-act="m-today">Back to this month</button>`:''}</div></section>`;
+  if(!S.props.length) return h+emptyProps();
+  let any=false;
+  for(const p of S.props){
+    const ts=tenantsOf(p.id).filter(t=>active(t,m)||payOf(t,m));
+    if(!ts.length)continue;any=true;
+    h+=`<section class="card"><div class="cardhead"><div class="hl">${artFor(p,'mini')}<h3>${esc(p.name)}</h3></div>${tagHTML(p)}</div>`;
+    for(const t of ts){
+      const st=status(t,m),e=rentFor(t,m),pay=payOf(t,m);
+      let btn='';
+      if(canAct()){
+        if(!pay)btn=`<button class="btn pri" data-act="pay" data-t="${esc(t.id)}">Mark paid</button>`;
+        else if(st&&st[0]==='part')btn=`<button class="btn part" data-act="pay" data-t="${esc(t.id)}">Edit</button>`;
+        else btn=`<button class="btn paid" data-act="pay" data-t="${esc(t.id)}">${checkSvg}Paid</button>`;
+      }
+      h+=`<div class="trow">${avatar(t.name)}<div><div class="nm">${esc(t.name)}</div><div class="sub"><span class="num">${esc(money(e))}</span> rent${st?` · <span class="pill st-${st[0]}">${esc(st[1])}</span>`:''}${pay&&pay.paidOn?` · ${esc(dName(pay.paidOn))}`:''}</div></div>${btn}</div>`;
+    }
+    h+='</section>';
+  }
+  if(!any)h+=`<section class="card empty">${artToLet}<h3>No tenants this month</h3><p>Add tenants to a building to start logging rent.</p>${act('tab','Go to buildings','btn pri','data-t="buildings"')}</section>`;
+  return h;
+}
+function emptyProps(){return `<section class="card empty">${artNoBuildings}<h3>No buildings yet</h3><p>Start by adding a building. Then add the tenants who live or work there.</p>${act('add-prop','Add a building','btn pri wide')}</section>`}
+
+function vProps(){
+  if(S.tenantId)return vTenant();
+  if(S.propId)return vProp();
+  let h=sampleBanner()+`<div class="cardhead" style="margin-top:8px"><h2>Buildings</h2>${act('add-prop','+ Add building','btn pri')}</div>`;
+  if(!S.props.length)return h+emptyProps();
+  h+='<div class="tiles">';
+  for(const p of S.props){
+    const ts=tenantsOf(p.id),cur=ts.filter(t=>active(t,CUR)),T=totals(CUR,ts);
+    h+=`<button class="tile ${p.type==='business'?'biz':'fam'}" data-act="open-prop" data-p="${esc(p.id)}"><div class="tile-art">${artFor(p)}</div><div class="tile-body"><h3>${esc(p.name)}</h3><div>${tagHTML(p)} <span class="muted">${cur.length} tenant${cur.length===1?'':'s'}</span></div>
+    <div class="amt">This month: <b class="num">${esc(money(T.got))}</b> of <span class="num">${esc(money(T.exp))}</span></div></div></button>`;
+  }
+  return h+'</div>';
+}
+function vProp(){
+  const p=S.props.find(x=>x.id===S.propId);if(!p){S.propId=null;return vProps()}
+  const ts=tenantsOf(p.id),cur=ts.filter(t=>!t.end||t.end.slice(0,7)>=CUR),past=ts.filter(t=>!cur.includes(t));
+  const yr=yearMonths(S.year).filter(m=>m<=CUR).reduce((a,m)=>{const T=totals(m,ts);a.got+=T.got;a.exp+=T.exp;return a},{got:0,exp:0});
+  let h=`<button class="back" data-act="back-props">‹ All buildings</button>
+  <div class="tile ${p.type==='business'?'biz':'fam'}" style="cursor:default"><div class="tile-art">${artFor(p)}</div><div class="tile-body"><div class="cardhead" style="margin:0"><h2>${esc(p.name)}</h2>${tagHTML(p)}</div>${p.address?`<p class="muted" style="margin:0">${esc(p.address)}</p>`:''}</div></div>
+  <div class="kpis"><div class="kpi">${icHome}<small>Rent per month now</small><b class="num">${esc(money(totals(CUR,ts).exp))}</b></div><div class="kpi">${icRecv}<small>Received in ${S.year}</small><b class="num">${esc(money(yr.got))}</b></div><div class="kpi">${icOwed}<small>Still owed in ${S.year}</small><b class="num">${esc(money(Math.max(0,yr.exp-yr.got)))}</b></div></div>
+  <section class="card"><div class="cardhead"><h3>Tenants</h3>${act('add-tenant','+ Add tenant','btn pri')}</div>`;
+  if(!cur.length)h+='<p class="muted">No current tenants yet.</p>';
+  h+='<ul class="list">'+cur.map(t=>`<li><button class="rowbtn" data-act="open-tenant" data-t="${esc(t.id)}"><span style="display:flex;gap:12px;align-items:center;min-width:0">${avatar(t.name)}<span><b>${esc(t.name)}</b><br><span class="muted">Since ${esc(dName(t.start))}${t.end?` · leaving ${esc(dName(t.end))}`:''}</span></span></span><span class="r num">${esc(money(rentAt(t,CUR)))}<br><span class="muted">per month ›</span></span></button></li>`).join('')+'</ul></section>';
+  if(past.length)h+=`<section class="card"><h3>Past tenants</h3><ul class="list">${past.map(t=>`<li><button class="rowbtn" data-act="open-tenant" data-t="${esc(t.id)}"><span style="display:flex;gap:12px;align-items:center;min-width:0">${avatar(t.name)}<span><b>${esc(t.name)}</b><br><span class="muted">${esc(dName(t.start))} to ${esc(dName(t.end))}</span></span></span><span class="r muted">›</span></button></li>`).join('')}</ul></section>`;
+  h+=`<div class="actions">${act('edit-prop','Edit building')}</div>`;
+  return h;
+}
+function vTenant(){
+  const t=S.tenants.find(x=>x.id===S.tenantId);if(!t){S.tenantId=null;return vProps()}
+  const rs=rents(t),months=[];let m=t.end&&endM(t)<CUR?endM(t):CUR;
+  for(let i=0;i<12&&m>=startM(t);i++){months.push(m);m=addM(m,-1)}
+  const all=Object.values(S.pays).filter(p=>p.tenantId===t.id).reduce((a,p)=>a+(Number(p.amount)||0),0);
+  let h=`<button class="back" data-act="back-prop">‹ ${esc(propName(t.propertyId))}</button><div style="display:flex;gap:14px;align-items:center">${avatar(t.name)}<h2>${esc(t.name)}</h2></div>
+  <p class="muted" style="margin:8px 0">${t.phone?`Phone <a href="tel:${esc(String(t.phone).replace(/[^0-9+]/g,''))}">${esc(t.phone)}</a> · `:''}${t.end?`${esc(dName(t.start))} to ${esc(dName(t.end))}`:`Living here since ${esc(dName(t.start))}`}</p>
+  <div class="kpis"><div class="kpi">${icHome}<small>Rent now</small><b class="num">${esc(money(rentAt(t,t.end&&endM(t)<CUR?endM(t):CUR)))}</b></div><div class="kpi">${icRecv}<small>Received in total</small><b class="num">${esc(money(all))}</b></div><div class="kpi">${icHike}<small>Rent hikes</small><b>${Math.max(0,rs.length-1)}</b></div></div>
+  <div class="actions">${act('hike','Add rent hike','btn pri')}${act('edit-tenant','Edit details')}${!t.end?act('moveout','Moved out','btn warn'):''}</div>
+  <section class="card"><h3>Rent history</h3><ul class="list">`;
+  rs.slice().reverse().forEach((r,i,arr)=>{const prev=arr[i+1];const diff=prev?(Number(r.amount)||0)-(Number(prev.amount)||0):0;const pc=prev&&prev.amount?Math.round(diff/prev.amount*1000)/10:0;
+    h+=`<li><span><b>From ${esc(mName(r.from))}</b><br><span class="muted">${prev?`${diff>=0?'Up':'Down'} ${esc(money(Math.abs(diff)))} (${Math.abs(pc)}%)`:'Starting rent'}${r.note?' · '+esc(r.note):''}</span></span><span class="r"><span class="num">${esc(money(r.amount))}</span>${prev&&canAct()?`<br><button class="link" data-act="del-hike" data-f="${esc(r.from)}" style="min-height:32px;padding:0;font-size:15px">Remove</button>`:''}</span></li>`});
+  h+=`</ul></section><section class="card"><h3>Last 12 months</h3><p class="note" style="margin:2px 0 0">Tap a month to log or change a payment.</p><ul class="list">`;
+  for(const mm of months){const st=status(t,mm),p=payOf(t,mm);
+    h+=`<li><button class="rowbtn" data-act="pay" data-t="${esc(t.id)}" data-m="${mm}" ${canAct()?'':'disabled'}><span><b>${esc(mName(mm))}</b><br>${st?`<span class="pill st-${st[0]}">${esc(st[1])}</span>`:'<span class="muted">No rent due</span>'}</span><span class="r num">${p?esc(money(p.amount)):'–'}<br><span class="muted">of ${esc(money(rentFor(t,mm)))}</span></span></button></li>`}
+  h+='</ul></section>';
+  if(t.notes)h+=`<section class="card"><h3>Notes</h3><p style="white-space:pre-wrap;margin:6px 0 0">${esc(t.notes)}</p></section>`;
+  return h;
+}
+
+function vSummary(){
+  const y=S.year,ms=yearMonths(y),upto=ms.filter(m=>m<=CUR);
+  const rows=ms.map(m=>({m,...totals(m)}));
+  const got=rows.reduce((a,r)=>a+r.got,0),exp=upto.reduce((a,m)=>a+totals(m).exp,0),owed=upto.reduce((a,m)=>a+totals(m).due,0);
+  const yearExpAll=rows.reduce((a,r)=>a+r.exp,0);
+  let h=`<div class="mnav" style="margin-top:8px"><button data-act="y-prev" aria-label="Previous year" style="color:var(--ink)">‹</button><h2>Summary ${y}</h2><button data-act="y-next" aria-label="Next year" style="color:var(--ink)">›</button></div>
+  <div class="kpis"><div class="kpi">${icRecv}<small>Received</small><b class="num">${esc(money(got))}</b></div><div class="kpi">${icExp}<small>Expected ${y<now.getFullYear()?'in year':'so far'}</small><b class="num">${esc(money(exp))}</b></div><div class="kpi">${icOwed}<small>Still owed</small><b class="num" style="color:${owed?'var(--clay)':'inherit'}">${esc(money(owed))}</b></div></div>`;
+  if(!S.tenants.length)return h+`<section class="card empty">${artChart}<h3>Nothing to show yet</h3><p>Charts appear here once you log some rent.</p></section>`;
+  h+=`<section class="card"><h3>Rent each month</h3><div class="legend"><span><i style="background:var(--teal)"></i>Received</span><span><i style="background:var(--ghost)"></i>Expected</span></div>
+  <div class="fig"><svg id="bars" role="img" aria-label="Rent received and expected each month of ${y}"></svg></div><div class="detail" id="detail">Tap a bar to see that month.</div>
+  ${y>=now.getFullYear()?`<p class="note">Expected for the whole of ${y}: <span class="num">${esc(money(yearExpAll))}</span></p>`:''}</section>`;
+  const per=S.props.map(p=>{const ts=tenantsOf(p.id);let g=0,e=0;for(const m of upto){const T=totals(m,ts);g+=T.got;e+=T.exp}return{p,g,e}}).filter(r=>r.g||r.e).sort((a,b)=>b.g-a.g);
+  const mx=Math.max(1,...per.map(r=>Math.max(r.g,r.e)));
+  h+=`<section class="card"><h3>By building</h3><p class="note" style="margin:2px 0 0">Teal bar is received, grey bar is expected.</p>${per.map(r=>`<div class="hb"><div class="top"><span>${artFor(r.p)}<b style="overflow-wrap:anywhere">${esc(r.p.name)}</b></span><span class="num">${esc(money(r.g))}</span></div><div class="trk"><s style="width:${r.e/mx*100}%"></s><i style="width:${r.g/mx*100}%"></i></div></div>`).join('')||'<p class="muted">No rent yet this year.</p>'}</section>`;
+  let biz=0,fam=0;for(const r of per)(r.p.type==='business'?biz+=r.g:fam+=r.g);
+  const tot=biz+fam;
+  if(tot)h+=`<section class="card"><h3>Business vs family homes</h3><div class="split" role="img" aria-label="Business ${Math.round(biz/tot*100)}%, family homes ${Math.round(fam/tot*100)}%"><i style="width:${biz/tot*100}%;background:var(--mari)"></i><i style="width:${fam/tot*100}%;background:var(--leaf)"></i></div>
+   <div class="legend"><span><i style="background:var(--mari)"></i>Business <b class="num" style="color:var(--ink)">${esc(money(biz))}</b> (${Math.round(biz/tot*100)}%)</span><span><i style="background:var(--leaf)"></i>Family homes <b class="num" style="color:var(--ink)">${esc(money(fam))}</b> (${Math.round(fam/tot*100)}%)</span></div></section>`;
+  const owe=S.tenants.map(t=>{let d=0,n=0;for(const m of upto){const e=rentFor(t,m),p=paidAmt(t,m);if(e>p){d+=e-p;n++}}return{t,d,n}}).filter(r=>r.d>0).sort((a,b)=>b.d-a.d);
+  h+=`<section class="card"><h3>Who still owes</h3>${owe.length?`<ul class="list">${owe.map(r=>`<li><button class="rowbtn" data-act="goto-tenant" data-t="${esc(r.t.id)}"><span style="display:flex;gap:12px;align-items:center;min-width:0">${avatar(r.t.name)}<span><b>${esc(r.t.name)}</b><br><span class="muted">${esc(propName(r.t.propertyId))} · ${r.n} month${r.n===1?'':'s'}</span></span></span><span class="r num st-over"><b>${esc(money(r.d))}</b></span></button></li>`).join('')}</ul>`:`<div class="allpaid">${artAllPaid}<p class="st-paid" style="font-weight:700;margin:0">Everyone is paid up for ${y}.</p></div>`}</section>`;
+  return h;
+}
+function drawBars(){
+  const s=$('#bars');if(!s)return;
+  const W=s.clientWidth,H=s.clientHeight;if(!W)return;
+  const rows=yearMonths(S.year).map(m=>({m,...totals(m)}));
+  const maxV=Math.max(1,...rows.map(r=>Math.max(r.exp,r.got)));
+  const narrow=W<520,L=narrow?6:60,R=6,T=10,B=26,iw=W-L-R,ih=H-T-B,bw=iw/12;
+  let g='';
+  if(!narrow)for(const f of [0.5,1]){const yy=T+ih-ih*f;g+=`<line class="gl" x1="${L}" x2="${W-R}" y1="${yy}" y2="${yy}"/><text x="${L-6}" y="${yy+4}" text-anchor="end">${esc(moneyS(maxV*f))}</text>`}
+  g+=`<line class="gl" x1="${L}" x2="${W-R}" y1="${T+ih}" y2="${T+ih}"/>`;
+  rows.forEach((r,i)=>{const x=L+i*bw+bw*.16,w=bw*.68,he=ih*r.exp/maxV,hg=ih*Math.min(r.got,maxV)/maxV;
+    const sel=S.selM===r.m;
+    g+=`<g data-i="${i}" style="cursor:pointer"><rect x="${L+i*bw}" y="${T}" width="${bw}" height="${ih+B}" fill="transparent"/>
+    <rect class="b-exp" x="${x}" y="${T+ih-he}" width="${w}" height="${he}" rx="3"/><rect class="${sel?'b-sel':'b-got'}" x="${x+w*.18}" y="${T+ih-hg}" width="${w*.64}" height="${hg}" rx="2"/>
+    <text x="${x+w/2}" y="${H-8}" text-anchor="middle" style="${r.m===CUR?'font-weight:700;fill:var(--ink)':''}">${esc(narrow?mName(r.m,{month:'narrow'}):mName(r.m,{month:'short'}))}</text></g>`});
+  s.innerHTML=g;
+}
+function showDetail(i){
+  const m=yearMonths(S.year)[i];S.selM=m;const T=totals(m);drawBars();
+  const d=$('#detail');if(d)d.innerHTML=`<b>${esc(mName(m))}</b>: received <b class="num">${esc(money(T.got))}</b> of <span class="num">${esc(money(T.exp))}</span>${T.due&&m<=CUR?` · <span class="st-over">${esc(money(T.due))} still owed</span>`:''}`;
+}
+
+function vSettings(){
+  return `<h2 style="margin-top:8px">Settings</h2>
+  ${hasSample()?`<section class="card"><h3>Sample data</h3><p class="note">Practice buildings and tenants are loaded. Remove them before you start using the app for real.</p>${act('clear-sample','Remove sample data','btn warn wide')}</section>`:''}
+  <section class="card"><h3>Backup</h3><p class="note">Copies everything as text you can paste into a note or email to keep safe.</p>${S.hiddenN>0?`<p class="note">${S.hiddenN} tenant${S.hiddenN===1?' from a deleted building is':'s from deleted buildings are'} hidden. ${S.hiddenN===1?'It is':'They are'} still in Copy all data.</p>`:''}<button class="btn wide" data-act="copy">Copy all data</button></section>
+  <section class="card"><h3>How saving works</h3><p class="note">This is a practice copy. Everything you enter is kept only on this phone, so entries made on one phone do not show on another. Use it from the Home Screen icon so your entries stay. Amounts are in rupees.${S.readOnly?' <b>You can look but not change anything.</b> Ask the person who shared it to give you edit access.':''}</p></section>`;
+}
+
+/* The page can stay open across midnight or the 1st of a month: recompute today's date when it changes. */
+function tick(){
+  const n=new Date(),c=`${n.getFullYear()}-${pad(n.getMonth()+1)}`,td=`${c}-${pad(n.getDate())}`;
+  if(td===TODAY)return false;
+  const oldCur=CUR;now=n;CUR=c;TODAY=td;if(S.month===oldCur)S.month=CUR;
+  const el=$('#today');if(el)el.textContent=new Intl.DateTimeFormat(LOC,{weekday:'long',day:'numeric',month:'long'}).format(now);
+  return true;
+}
+const revoked=()=>Object.values(S.errs).includes('revoked');
+function render(){
+  tick();
+  document.querySelectorAll('nav.tabs button').forEach(b=>b.setAttribute('aria-current',b.dataset.tab===S.view?'page':'false'));
+  if(ro){ro.disconnect();ro=null}
+  if(S.status==='nodb'){app.innerHTML=`<section class="card empty">${artNoBuildings}<h3>Can't open saved data here</h3><p>Open this page on claude.ai while signed in to see and save rent.</p></section>`;return}
+  if(S.status==='error'){app.innerHTML=revoked()?`<section class="card empty">${artNoBuildings}<h3>This rent book can't be opened here right now.</h3></section>`
+    :`<section class="card empty">${artNoBuildings}<h3>Couldn't open your rent book. Nothing is lost.</h3><p>Check that the phone is online, then try again.</p><button class="btn pri wide" data-act="retry-load">Try again</button></section>`;return}
+  if(S.status==='loading'){app.innerHTML=`<section class="card empty">${artNoBuildings}<h3>Opening your rent book…</h3>${S.slow?'<p>It is taking a while. Check that the phone is online.</p>':''}</section>`;return}
+  const v={month:vMonth,buildings:vProps,summary:vSummary,options:vSettings}[S.view]||vMonth;
+  const stale=Object.keys(S.errs).length?`<div class="banner"><span>Numbers may be out of date.</span>${revoked()?'':'<button class="link" data-act="retry-load">Try again</button>'}</div>`
+    :(S.slow?'<div class="banner">Numbers may be out of date. Check that the phone is online.</div>':'');
+  const pend=S.pendingLong&&S.inflight>0?'<div class="banner" id="pending" role="status">Not saved yet: waiting for the internet. Keep this page open.</div>':'';
+  app.innerHTML=pend+stale+v();
+  if(S.view==='summary'){const s=$('#bars');if(s){ro=new ResizeObserver(drawBars);ro.observe(s);if(S.selM&&S.selM.startsWith(String(S.year)))showDetail(Number(S.selM.slice(5))-1)}}
+}
+let ro=null;
+
+/* ---------- sheets ---------- */
+let onSub=null;
+function sheet(title,body,submitLabel,fn,after){
+  shwrap.innerHTML=`<form class="sheet-in" id="sf" novalidate><div class="sh-head"><h2>${esc(title)}</h2><button type="button" class="x" data-act="close" aria-label="Close">×</button></div>${body}<div class="sh-actions"><button type="submit" class="btn pri wide">${esc(submitLabel)}</button><div id="shx" style="display:grid;gap:10px"></div><button type="button" class="btn wide" data-act="close">Cancel</button></div></form>`;
+  shwrap.hidden=false;document.body.classList.add('noscroll');onSub=fn;
+  const f=$('#sf');
+  /* Only close the form that was saved: a slow save must never close a newer form the user opened meanwhile. */
+  f.onsubmit=async e=>{e.preventDefault();if(f.dataset.gone){if(shwrap.contains(f))closeSheet();return}const fd=Object.fromEntries(new FormData(f));const b=f.querySelector('[type=submit]');b.disabled=true;let ok=false;try{ok=await fn(fd,f)}finally{b.disabled=false}if(ok!==false&&shwrap.contains(f))closeSheet()};
+  if(after)after(f);
+  const first=f.querySelector('input:not([type=radio]),select');if(first&&matchMedia('(hover:hover)').matches)first.focus();
+}
+function closeSheet(){shwrap.hidden=true;shwrap.innerHTML='';document.body.classList.remove('noscroll');onSub=null}
+function err(f,msg){if(!f||!f.isConnected){toast(msg);return false}let e=f.querySelector('.ferr');if(!e){e=document.createElement('p');e.className='ferr st-over';e.style.fontWeight='700';e.setAttribute('role','alert');f.querySelector('.sh-actions').before(e)}e.textContent=msg;return false}
+const cap=s=>String(s).charAt(0).toUpperCase()+String(s).slice(1);
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+const alive=x=>x&&!x.deleted?x:null;
+/* Every write carries when it was made and (when known) who made it. Only the user id is stored, never a name. */
+const stamp=o=>({...o,at:new Date().toISOString(),...(S.me?{by:S.me}:{})});
+function withTimeout(p,ms){let t;return Promise.race([p,new Promise((_,rej)=>{t=setTimeout(()=>rej({code:'timeout'}),ms)})]).finally(()=>clearTimeout(t))}
+/* The name to show when a form's subject disappeared: the building if that went, otherwise the tenant. */
+const goneName=t=>{const tr=S.raw.tenants[t.id];if(tr&&!tr.deleted){const pr=S.raw.props[t.propertyId];if(!pr||pr.deleted)return (pr&&pr.name)||'The building'}return t.name};
+const tenantGone=t=>{const r=S.raw.tenants[t.id];return !r||r.deleted||!S.tenants.some(x=>x.id===t.id)};
+function gone(f,name){
+  const msg=`${name} was deleted on another phone. Nothing was changed.`;
+  if(f&&shwrap.contains(f)){err(f,msg);f.dataset.gone='1';const b=f.querySelector('[type=submit]');if(b)b.textContent='OK';
+    setTimeout(()=>f.addEventListener('click',()=>{if(shwrap.contains(f))closeSheet()},{once:true}),0)}
+  else toast(msg);
+  return false;
+}
+
+/* Writes in flight. Counted on the real write, so a write that outlives its 15 s timer still counts until it lands. */
+let pendT=null;
+/* hold() counts one unit of work in flight; its release(good,o) uncounts it once. With o, the last release toasts the outcome. */
+function hold(){
+  S.inflight++;let done=false;
+  if(!pendT&&!S.pendingLong)pendT=setTimeout(()=>{pendT=null;if(S.inflight>0){S.pendingLong=true;render()}},5000);
+  return (good,o)=>{if(done)return;done=true;S.inflight=Math.max(0,S.inflight-1);if(S.inflight===0){clearTimeout(pendT);pendT=null;
+    if(S.pendingLong){S.pendingLong=false;render();if(o)toast(good?'Saved':`Couldn't ${o.verb||'save'} ${o.who||'this change'}. Check the internet and try again.`)}}};
+}
+function track(p,o){const rel=hold();p.then(()=>rel(true,o),()=>rel(false,o))}
+const KNOWN=['invalid_argument','resource_exhausted','quota_exceeded','revoked','timeout','not_granted','capability_disabled','capability_removed'];
+/* save(fn, okToast, {f, who, path, gname, verb, done, undo}): one write with a 15 s limit, one retry for passing trouble,
+   and a plain message in the form (or a toast when there is no form) that names whose data it was. */
+async function save(fn,ok='Saved',o={}){
+  for(let tries=0;;tries++){
+    const real=Promise.resolve().then(fn);track(real,o);
+    /* o.t0: when the user tapped Save, so a fresh read before the write still fits in the same 15 s. */
+    const lim=tries===0&&o.t0?Math.max(4000,o.t0+15000-Date.now()):15000;
+    try{await withTimeout(real,lim);if(ok)toast(ok,o.undo?{undo:o.undo}:{});return true}
+    catch(e){
+      let code=e&&e.code;if(code==='transform_error')code='invalid_argument';
+      if(code==='timeout')real.then(()=>{const x=o.f&&shwrap.contains(o.f)&&o.f.querySelector('.ferr');if(x)x.textContent='Now saved. You can close this.'},()=>{});
+      if(tries===0&&code==='resource_exhausted'){await sleep(3000);continue}
+      if(tries===0&&(code==='unavailable'||!KNOWN.includes(code))){await sleep(800+Math.random()*1200);continue}
+      return failSave(code,o);
+    }
+  }
+}
+async function failSave(code,o){
+  const who=o.who||'this change',f=o.f,verb=o.verb||'save';
+  const say=msg=>{if(f&&shwrap.contains(f))return err(f,msg);toast(msg);return false};
+  const goRO=msg=>{S.readOnly=true;closeSheet();render();toast(msg);return false};
+  if(code==='timeout')return say(`${cap(who)} is not ${o.done||'saved'} yet. The phone seems offline. ${f?'Tap Save again':'Try again'} when it's back.`);
+  if(code==='quota_exceeded')return say('The rent book is full. Nothing new can be saved.');
+  if(['revoked','not_granted','capability_disabled','capability_removed'].includes(code))return goRO("This rent book can't be changed right now.");
+  if(code==='invalid_argument'){
+    if(S.canWrite===false)return goRO("You don't have permission to change this.");
+    if(o.path){let d=null;try{d=await withTimeout(S.db.doc(o.path).get(),6000)}catch(e){}
+      if(d&&(!d.exists||(d.data()||{}).deleted))return gone(f,o.gname||who)}
+    if(S.canWrite===null)return goRO("You don't have permission to change this.");
+  }
+  return say(`Couldn't ${verb} ${who}. Check the internet and ${f?'tap Save again':'try again'}.`);
+}
+const field=(label,name,val='',type='text',extra='')=>`<label class="f">${label}<input id="f-${name}" name="${name}" type="${type}" value="${esc(val)}" ${extra}></label>`;
+const rupeeField=(label,name,val='')=>`<label class="f">${label}<span class="rs"><input id="f-${name}" name="${name}" type="text" inputmode="numeric" autocomplete="off" value="${esc(val)}" placeholder="0"></span></label>`;
+
+/* Shown inside the payment form when the other phone saved (or removed) this month's payment after the form opened. */
+function askConflict(f,cur,mine,write){
+  f.querySelector('.ferr')?.remove();f.querySelector('#ask')?.remove();
+  const box=document.createElement('div');box.className='banner ask';box.id='ask';box.setAttribute('role','alert');
+  const btn=(c,label)=>`<button type="button" class="btn wide" data-c="${c}">${esc(label)}</button>`;
+  if(cur){const x=Number(cur.amount)||0,d=dShort(cur.paidOn);
+    box.innerHTML=`<span><b>Already saved on another phone: <span class="num">${esc(money(x))}</span>${d?`, received ${esc(d)}`:''}.</b></span>`
+      +btn('add',`Add mine, total ${money(x+mine.amount)}`)+btn('mine',`Keep only mine, ${money(mine.amount)}`)+btn('keep',`Keep ${money(x)}, don't change`);
+  }else box.innerHTML=`<span><b>This payment was removed on another phone.</b></span>`+btn('mine',`Save mine, ${money(mine.amount)}`)+btn('keep','Leave it removed');
+  f.querySelector('.sh-actions').before(box);
+  box.addEventListener('click',async ev=>{const b=ev.target.closest('[data-c]');if(!b)return;const c=b.dataset.c;
+    if(c==='keep'){closeSheet();return}
+    box.querySelectorAll('button').forEach(x=>x.disabled=true);
+    const body=c==='add'?{amount:(Number(cur.amount)||0)+mine.amount,paidOn:[cur.paidOn||'',mine.paidOn].sort().pop(),note:[cur.note,mine.note].filter(Boolean).join(' + ').slice(0,120)}:mine;
+    box.remove();
+    if(await write(body)&&shwrap.contains(f))closeSheet();
+  });
+  return false;
+}
+function paySheet(tid,m){
+  const t=S.tenants.find(x=>x.id===tid);if(!t)return;m=m||S.month;
+  const id=`${t.id}_${m}`,ref=S.db.doc('pays/'+id);
+  const p=payOf(t,m),e=rentFor(t,m),p0=S.raw.pays[id]||null;let myAt=null;
+  const who=`${t.name}'s payment`;
+  const defDate=p&&p.paidOn?p.paidOn:(m===CUR?TODAY:`${m}-01`);
+  sheet(`${t.name}, ${mName(m)}`,`<p class="muted" style="margin:0">${esc(propName(t.propertyId))} · rent is <b class="num">${esc(money(e))}</b></p>
+   ${rupeeField('Amount received','amount',p?p.amount:e)}
+   ${field('Date received','paidOn',defDate,'date')}
+   <label class="f">Note <small>(optional, e.g. cash, UPI, bank transfer)</small><input id="f-note" name="note" value="${esc(p&&p.note||'')}" maxlength="120"></label>`,
+   p?'Save changes':'Save as paid',async(fd,f)=>{
+     if(tenantGone(t))return gone(f,goneName(t));
+     const amt=num(fd.amount);if(!(amt>0))return err(f,'Enter the amount received.');
+     const rel=hold();try{return await payCheck(fd,f,amt)}finally{rel(true)}
+   },
+   ()=>{if(p)$('#shx').innerHTML=`<button type="button" class="btn warn wide" data-act="unpay" data-t="${esc(t.id)}" data-m="${m}">Not paid, remove this entry</button>`});
+  async function payCheck(fd,f,amt){
+     const t0=Date.now();
+     const mine={amount:amt,paidOn:fd.paidOn||TODAY,note:String(fd.note||'').slice(0,120)};
+     const write=(v,tt)=>{const body={tenantId:t.id,propertyId:t.propertyId,month:m,amount:v.amount,paidOn:v.paidOn,note:v.note,at:myAt=new Date().toISOString(),...(S.me?{by:S.me}:{}),...(t.sample?{sample:true}:{})};
+       return save(()=>ref.set(body),v.amount>=e?'Marked as paid':'Saved as part payment',{f,who,t0:tt})};
+     /* Read the saved copy fresh and compare it with the copy this form opened with. */
+     let cur;try{const s=await withTimeout(ref.get(),6000);cur=s.exists?s.data():null}catch(x){cur=S.raw.pays[id]||null}
+     if(!shwrap.contains(f))return false;
+     const a=alive(cur),b=alive(p0);
+     const mineEarlier=a&&myAt&&a.at===myAt;
+     const differs=!!a!==!!b||(a&&(Number(a.amount)!==Number(b.amount)||(a.paidOn||'')!==(b.paidOn||'')||(a.note||'')!==(b.note||'')||(a.at||null)!==(b.at||null)));
+     if(mineEarlier||!differs)return write(mine,t0);
+     if(a&&Number(a.amount)===amt){toast('Already saved on the other phone');return true}
+     return askConflict(f,a,mine,write);
+  }
+}
+function propSheet(p){
+  sheet(p?'Edit building':'New building',`${field('Name','name',p?p.name:'','text','placeholder="e.g. Main Road shops" maxlength="80"')}
+  <div class="f" style="margin-top:14px;font-weight:700">What kind of building?</div>
+  <div class="seg"><label><input type="radio" name="type" value="business" ${p&&p.type==='business'?'checked':''}>${shopArt()}<span>Business</span></label><label><input type="radio" name="type" value="family" ${!p||p.type!=='business'?'checked':''}>${homeArt()}<span>Family home</span></label></div>
+  <label class="f">Address or note <small>(optional)</small><input id="f-address" name="address" value="${esc(p&&p.address||'')}" maxlength="160"></label>`,
+  p?'Save changes':'Add building',async(fd,f)=>{
+    const name=String(fd.name||'').trim();if(!name)return err(f,'Give the building a name.');
+    const v={name:name.slice(0,80),type:fd.type==='business'?'business':'family',address:String(fd.address||'').slice(0,160)};
+    if(p){const r=S.raw.props[p.id];if(!r||r.deleted)return gone(f,p.name);
+      return save(()=>S.db.doc('props/'+p.id).update(v),'Saved',{f,who:`${p.name}'s details`,path:'props/'+p.id,gname:p.name})}
+    const ref=S.db.collection('props').doc();
+    const ok=await save(()=>ref.set({...v,createdAt:TODAY}),'Building added',{f,who:name});
+    if(ok){S.view='buildings';S.propId=ref.id;S.tenantId=null;history.replaceState(null,'','#buildings');if(S.props.some(x=>x.id===ref.id))render()}
+    return ok;
+  },()=>{if(p)$('#shx').innerHTML=`<button type="button" class="btn warn wide" data-act="del-prop">Delete this building</button>`});
+}
+function tenantSheet(t){
+  const r0=t?rents(t)[0]:null,t0=t?S.raw.tenants[t.id]:null;
+  sheet(t?'Edit tenant':`New tenant in ${propName(S.propId)}`,`${field('Tenant name','name',t?t.name:'','text','maxlength="80" autocomplete="off"')}
+  ${field('Phone <small>(optional)</small>','phone',t?t.phone:'','tel','maxlength="30"')}
+  ${field('Moved in on','start',t?t.start:TODAY,'date')}
+  ${rupeeField('Monthly rent when they moved in','rent',r0?r0.amount:'')}
+  ${t?'<p class="hint">For a new rent amount, use Add rent hike instead.</p>':''}
+  ${field('Moved out on <small>(leave empty if still there)</small>','end',t?t.end:'','date')}
+  <label class="f">Notes <small>(optional)</small><textarea id="f-notes" name="notes" rows="2" maxlength="500">${esc(t&&t.notes||'')}</textarea></label>`,
+  t?'Save changes':'Add tenant',async(fd,f)=>{
+    const name=String(fd.name||'').trim(),rent=num(fd.rent);
+    if(!name)return err(f,'Enter the tenant name.');
+    if(!/^\d{4}-\d{2}-\d{2}$/.test(fd.start||''))return err(f,'Enter the move-in date.');
+    if(!(rent>0))return err(f,'Enter the monthly rent.');
+    if(fd.end&&fd.end<fd.start)return err(f,'Move-out date is before move-in date.');
+    const sm=fd.start.slice(0,7);
+    const v={name:name.slice(0,80),phone:String(fd.phone||'').slice(0,30),start:fd.start,end:fd.end||'',notes:String(fd.notes||'').slice(0,500)};
+    if(!t){const ref=S.db.collection('tenants').doc();
+      const ok=await save(()=>ref.set({propertyId:S.propId,...v,rents:[{from:sm,amount:rent}]}),'Tenant added',{f,who:name});
+      if(ok)S.tenantId=null;return ok}
+    if(tenantGone(t))return gone(f,goneName(t));
+    /* Only the fields this person changed are written, so a hike or move-out saved on the other phone survives. */
+    const base=t0||t,ch={};
+    for(const k of Object.keys(v))if(String(base[k]??'')!==v[k])ch[k]=v[k];
+    const old=rents(base),first=old[0];
+    if(v.start!==String(base.start??'')&&old.length>1&&sm>=old[1].from)return err(f,`The move-in date is after the rent hike from ${mName(old[1].from)}. Remove that hike first, or pick an earlier date.`);
+    if(!first||first.from!==sm||Number(first.amount)!==rent){ch['rent_'+sm]=stamp({amount:rent});if(first&&first.from!==sm)ch['rent_'+first.from]=null}
+    if(!Object.keys(ch).length){toast('No changes');return true}
+    return save(()=>S.db.doc('tenants/'+t.id).update(ch),'Saved',{f,who:`${t.name}'s details`,path:'tenants/'+t.id,gname:t.name});
+  },()=>{if(t)$('#shx').innerHTML=`<button type="button" class="btn warn wide" data-act="del-tenant">Delete this tenant and their payments</button>`});
+}
+function hikeSheet(t){
+  const cur=rentAt(t,CUR),nm=addM(CUR,1);
+  sheet(`Rent hike for ${t.name}`,`<p class="muted" style="margin:0">Rent now: <b class="num">${esc(money(cur))}</b></p>
+  ${rupeeField('New monthly rent','amount','')}<p class="hint" id="hk"></p>
+  ${field('Starts from month','from',nm,'month')}
+  <label class="f">Note <small>(optional)</small><input id="f-hnote" name="note" maxlength="80" placeholder="e.g. yearly 5% increase"></label>`,
+  'Save rent hike',async(fd,f)=>{
+    const amt=num(fd.amount),from=String(fd.from||'');
+    if(!(amt>0))return err(f,'Enter the new rent.');
+    if(!/^\d{4}-\d{2}$/.test(from))return err(f,'Pick the month the new rent starts.');
+    if(from<=startM(t))return err(f,'The hike must start after the tenant moved in.');
+    if(tenantGone(t))return gone(f,goneName(t));
+    /* Each hike is its own key, so two hikes saved at once on two phones both stay. */
+    return save(()=>S.db.doc('tenants/'+t.id).update({['rent_'+from]:stamp({amount:amt,note:String(fd.note||'').slice(0,80)})}),'Rent hike saved',{f,who:`${t.name}'s rent hike`,path:'tenants/'+t.id,gname:t.name});
+  },f=>{const a=f.querySelector('[name=amount]'),hk=$('#hk');a.addEventListener('input',()=>{const v=num(a.value);hk.textContent=v>0&&cur?`That is ${v>=cur?'up':'down'} ${money(Math.abs(v-cur))} (${Math.abs(Math.round((v-cur)/cur*1000)/10)}%)`:''})});
+}
+function moveSheet(t){
+  sheet(`${t.name} moved out`,`${field('Last day','end',TODAY,'date')}<p class="hint">Rent stops being expected after this month. Past payments stay saved.</p>`,'Save',async(fd,f)=>{
+    if(!/^\d{4}-\d{2}-\d{2}$/.test(fd.end||''))return err(f,'Pick the date.');
+    if(fd.end<t.start)return err(f,'That is before they moved in.');
+    if(tenantGone(t))return gone(f,goneName(t));
+    return save(()=>S.db.doc('tenants/'+t.id).update({end:fd.end}),'Saved',{f,who:`${t.name}'s move-out date`,path:'tenants/'+t.id,gname:t.name});
+  });
+}
+
+/* ---------- deletes ---------- */
+/* A delete marks the one document deleted:true (one write), with Undo for 8 s. Tenants and payments under it are hidden by derive(). */
+function softDelete(path,name,okMsg){
+  const ref=S.db.doc(path);
+  return save(()=>ref.update(stamp({deleted:true})),okMsg,{who:name,verb:'delete',done:'deleted',path,gname:name,
+    undo:()=>save(()=>ref.update({deleted:false}),`${name} is back`,{who:name,verb:'bring back',done:'back'})});
+}
+function armed(b,label){if(b.dataset.armed)return true;const orig=b.textContent;b.dataset.armed='1';b.textContent=label;setTimeout(()=>{if(b.isConnected&&b.dataset.armed){delete b.dataset.armed;b.textContent=orig}},6000);return false}
+
+/* ---------- events ---------- */
+document.addEventListener('click',async ev=>{
+  const tabB=ev.target.closest('nav.tabs button');
+  if(tabB){go(tabB.dataset.tab);return}
+  const g=ev.target.closest('#bars g[data-i]');if(g){showDetail(Number(g.dataset.i));return}
+  if(ev.target===shwrap){closeSheet();return}
+  const b=ev.target.closest('[data-act]');if(!b)return;
+  const a=b.dataset.act,t=S.tenants.find(x=>x.id===(b.dataset.t||S.tenantId)),p=S.props.find(x=>x.id===S.propId);
+  switch(a){
+    case 'close':closeSheet();break;
+    case 'tab':go(b.dataset.t);break;
+    case 'm-prev':S.month=addM(S.month,-1);render();break;
+    case 'm-next':S.month=addM(S.month,1);render();break;
+    case 'm-today':S.month=CUR;render();break;
+    case 'y-prev':S.year--;S.selM=null;render();break;
+    case 'y-next':S.year++;S.selM=null;render();break;
+    case 'pay':if(canAct())paySheet(b.dataset.t,b.dataset.m);break;
+    case 'unpay':{const m=b.dataset.m,ref=S.db.doc(`pays/${b.dataset.t}_${m}`),f=$('#sf'),who=`${t?t.name:'This tenant'}'s ${mName(m)} payment`;
+      const ok=await save(async()=>{try{await ref.update(stamp({deleted:true}))}catch(e){if(e&&e.code==='invalid_argument'){const s=await ref.get().catch(()=>null);if(s&&!s.exists)return}throw e}},
+        `${cap(who)} removed`,{f,who,verb:'remove',done:'removed',undo:()=>save(()=>ref.update({deleted:false}),`${cap(who)} is back`,{who,verb:'bring back',done:'back'})});
+      if(ok&&f&&shwrap.contains(f))closeSheet();break}
+    case 'add-prop':propSheet();break;
+    case 'open-prop':S.propId=b.dataset.p;S.tenantId=null;render();scrollTo(0,0);break;
+    case 'back-props':S.propId=null;render();break;
+    case 'back-prop':S.tenantId=null;render();break;
+    case 'edit-prop':if(p)propSheet(p);break;
+    case 'del-prop':if(p&&armed(b,'Tap again to delete everything in it')){closeSheet();if(await softDelete('props/'+p.id,p.name,`${p.name} deleted`)){S.propId=null;render()}}break;
+    case 'add-tenant':tenantSheet();break;
+    case 'open-tenant':S.tenantId=b.dataset.t;render();scrollTo(0,0);break;
+    case 'goto-tenant':if(t){S.view='buildings';S.propId=t.propertyId;S.tenantId=t.id;history.replaceState(null,'','#buildings');render();scrollTo(0,0)}break;
+    case 'edit-tenant':if(t)tenantSheet(t);break;
+    case 'del-tenant':if(t&&armed(b,'Tap again to delete')){closeSheet();if(await softDelete('tenants/'+t.id,t.name,`${t.name} deleted`)){S.tenantId=null;render()}}break;
+    case 'hike':if(t)hikeSheet(t);break;
+    case 'moveout':if(t)moveSheet(t);break;
+    case 'del-hike':if(t&&armed(b,'Tap again')){const from=b.dataset.f;save(()=>S.db.doc('tenants/'+t.id).update({['rent_'+from]:null}),'Hike removed',{who:`${t.name}'s rent hike`,verb:'remove',done:'removed',path:'tenants/'+t.id,gname:t.name})}break;
+    case 'clear-sample':if(armed(b,'Tap again to remove')){
+      /* Sample buildings that real tenants were added to are kept, with those tenants (their sample mark is cleared so the banner goes). Only sample:true documents are removed. */
+      const R=S.raw,keepP=new Set(Object.values(R.tenants).filter(x=>!x.sample&&!x.deleted).map(x=>x.propertyId));
+      await save(async()=>{for(const x of Object.values(R.pays).filter(x=>x.sample))await S.db.doc('pays/'+x.id).delete();for(const x of Object.values(R.tenants).filter(x=>x.sample))await S.db.doc('tenants/'+x.id).delete();for(const x of Object.values(R.props).filter(x=>x.sample))await(keepP.has(x.id)?S.db.doc('props/'+x.id).update({sample:false}):S.db.doc('props/'+x.id).delete())},'Sample data removed',{who:'the sample data',verb:'remove',done:'removed'});
+      S.propId=S.tenantId=null;render()}break;
+    case 'retry-load':retryLoad();break;
+    case 'copy':{const R=S.raw,data=JSON.stringify({currency:'INR',buildings:Object.values(R.props),tenants:Object.values(R.tenants),payments:Object.values(R.pays)},null,1);try{await navigator.clipboard.writeText(data);toast('Copied. Paste it somewhere safe.')}catch(e){toast("This phone wouldn't allow copying.")}}break;
+  }
+});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!shwrap.hidden)closeSheet()});
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState!=='hidden'&&tick())render()});
+function go(v){if(!VIEWS.includes(v))v='month';if(v==='buildings'){S.propId=S.tenantId=null}S.view=v;if(location.hash.slice(1)!==v)history.replaceState(null,'','#'+v);render();scrollTo(0,0)}
+addEventListener('hashchange',()=>{const v=location.hash.slice(1);if(VIEWS.includes(v)&&v!==S.view){S.view=v;render()}});
+{const v=location.hash.slice(1);if(VIEWS.includes(v))S.view=v}
+
+/* ---------- data ---------- */
+let slowT=setTimeout(()=>{S.slow=true;render()},10000);
+const fresh={};
+const KEYS=['props','tenants','pays','settings'];
+/* Build what the screens show from S.raw: deleted documents, tenants of a deleted building and their payments are left out. */
+function derive(){
+  const R=S.raw;
+  S.props=Object.values(R.props).filter(p=>!p.deleted).sort((a,b)=>String(a.name).localeCompare(String(b.name)));
+  const pids=new Set(S.props.map(p=>p.id)),live=Object.values(R.tenants).filter(t=>!t.deleted);
+  S.tenants=live.filter(t=>pids.has(t.propertyId));
+  S.hiddenN=live.length-S.tenants.length;
+  const tids=new Set(S.tenants.map(t=>t.id)),o={};
+  for(const p of Object.values(R.pays))if(!p.deleted&&tids.has(p.tenantId))o[p.id]=p;
+  S.pays=o;
+}
+function ready(){if(S.status!=='error'&&KEYS.every(k=>S.got[k]))S.status='ok'}
+function settle(key,cache){S.got[key]=1;if(!cache)fresh[key]=1;if(KEYS.every(k=>fresh[k])){clearTimeout(slowT);S.slow=false}ready();render()}
+const SRC={props:()=>S.db.collection('props'),tenants:()=>S.db.collection('tenants'),pays:()=>S.db.collection('pays'),settings:()=>S.db.doc('settings/app')};
+function sub(key){
+  const next=snap=>{
+    if(key==='settings')S.settings=snap.exists?snap.data():null;
+    else{const o={};for(const d of snap.docs)o[d.id]={...d.data(),id:d.id};S.raw[key]=o;derive()}
+    settle(key,!!(snap.metadata&&snap.metadata.fromCache))};
+  const fail=e=>{const code=(e&&e.code)||'unavailable';S.errs[key]=code;S.unsub[key]=null;clearTimeout(slowT);S.slow=false;
+    if(code==='revoked')S.readOnly=true;if(!S.got[key])S.status='error';render()};
+  try{S.unsub[key]=SRC[key]().onSnapshot(next,fail)}catch(e){fail(e)}
+}
+function retryLoad(){
+  const ks=Object.keys(S.errs).filter(k=>S.errs[k]!=='revoked');if(!ks.length)return;
+  for(const k of ks){try{if(S.unsub[k])S.unsub[k]()}catch(e){}delete S.errs[k]}
+  if(S.status==='error'&&!Object.keys(S.errs).length){S.status='loading';clearTimeout(slowT);slowT=setTimeout(()=>{S.slow=true;render()},10000)}
+  for(const k of ks)sub(k);
+  ready();render();
+}
+claude.use('db').then(async db=>{
+  if(!db){clearTimeout(slowT);S.status='nodb';render();return}
+  S.db=db;
+  for(const k of KEYS)sub(k);
+  try{const u=await claude.use('user');if(u){
+    const c=typeof u.can==='function'?await u.can('data.write'):null;S.canWrite=c===true||c===false?c:null;
+    if(c===false){S.readOnly=true;render()}
+    try{S.me=typeof u.id==='function'?(await u.id())||null:null}catch(e){S.me=null}}}catch(e){}
+});
+render();
+}
+</script>
+
+</body>
+</html>
